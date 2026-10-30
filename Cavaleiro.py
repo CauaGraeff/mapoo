@@ -3,7 +3,7 @@ from Personagem import Personagem
 class Cavaleiro(Personagem):
     def __init__(self, nome):
         super().__init__(nome, 6, 10, 12)
-    modo_defensivo = False
+        self.modo_defensivo = False
 
     def acao(self):
         while(True):
@@ -35,7 +35,8 @@ class Cavaleiro(Personagem):
                         "1 - sim"
                         "2 - não")
         if(escolha == "1"):
-            pass
+            dados_inimigo_jogados = 2
+            dados_aliados_jogados = 2
         elif(escolha == "2"):
             pass
         else:
