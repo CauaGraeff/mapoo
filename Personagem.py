@@ -34,4 +34,5 @@ class Personagem:
                 self.stats.setAtaque(x)
                 self.stats.setDefesa(y)
                 self.stats.setVida(z)
+                self.experiencia -= (x + y + z)
                 break
