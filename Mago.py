@@ -9,9 +9,10 @@ class Mago(Personagem):
               "1 - Bola de fogo"
               "2 - Super bola de fogo")
         if(escolha == "1"):
-            pass
+            dano = 5
+            return dano
         elif(escolha == "2"):
-            pass
+            dano = 13
         else:
             print("Opção invalida!")
     def usar_habilidade_ativa(self):
