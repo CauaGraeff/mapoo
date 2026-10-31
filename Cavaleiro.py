@@ -30,14 +30,15 @@ class Cavaleiro(Personagem):
             else:
                 print("Opção invalida!")
                 continue
-    def usar_habilidade_ativa(self):
-        escolha = input("Desejar usar a sua habilidade 'O azarão'? "
-                        "1 - sim"
-                        "2 - não")
-        if(escolha == "1"):
-            dados_inimigo_jogados = 2
-            dados_aliados_jogados = 2
-        elif(escolha == "2"):
-            pass
-        else:
-            print("Opção invalida!")
+    def usar_habilidade_ativa(self, inimigo):
+        while(True):
+            escolha = input("Desejar usar a sua habilidade 'O azarão'? "
+                            "1 - sim"
+                         "2 - não")
+            if(escolha == "1"):
+                inimigo.azarado = True
+            elif(escolha == "2"):
+                pass
+            else:
+                print("Opção invalida!")
+                continue
