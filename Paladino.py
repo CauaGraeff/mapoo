@@ -9,7 +9,7 @@ class Paladino(Personagem):
               "1 - Recuperação de vida"
               "2 - Corte prejudicial")
         if(escolha == "1"):
-            pass
+           pass
         elif(escolha == "2"):
             pass
         else:
