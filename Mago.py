@@ -36,23 +36,30 @@ class Mago(Personagem):
                 self.modo_carregamento = True
                 return 0, 0, 0, 0
     def usar_habilidade_ativa(self):
-        escolha = input("Desejar usar uma de suas habilidades? "
-                        "1 - sim"
-                        "2 - não")
-        if(escolha == "1"):
-            habilidade = input("Qual habidade? "
-                            "1 - Raio paralisante"
-                            "2 - Double luck"
-                            "3 - Escudo imperfeito")
-            if(habilidade == "1"):
-                pass
-            elif(habilidade == "2"):
-                pass
-            elif(habilidade == "3"):
-                pass
+        while (True):
+            if(self.modo_carregamento == 0):
+
+                escolha = input("Desejar usar uma de suas habilidades? "
+                                "1 - sim"
+                                "2 - não")
+                if(escolha == "1"):
+                    habilidade = input("Qual habidade? "
+                                    "1 - Raio paralisante"
+                                    "2 - Double luck"
+                                    "3 - Escudo imperfeito")
+                    if(habilidade == "1"):
+                        break
+                    elif(habilidade == "2"):
+                        break
+                    elif(habilidade == "3"):
+                        break
+                    else:
+                        print("Opção invalida!")
+                elif(escolha == "2"):
+                    break
+                else:
+                    print("Opção invalida!")
             else:
-                print("Opção invalida!")
-        elif(escolha == "2"):
-            pass
-        else:
-            print("Opção invalida!")
+                print(f"A habilidade está carregando, faltam {self.carregamento_habilidade} para poder utilizar novamente")
+                self.carregamento_habilidade -= 1
+                break

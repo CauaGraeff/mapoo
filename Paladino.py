@@ -30,12 +30,18 @@ class Paladino(Personagem):
             diminuicao_ataque_inimigo = 5
             return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
     def usar_habilidade_ativa(self):
-        escolha = input("Desejar usar a sua habilidade 'Vida emergencial'? "
-                        "1 - sim"
-                        "2 - não")
-        if(escolha == "1"):
-            pass
-        elif(escolha == "2"):
-            pass
-        else:
-            print("Opção invalida!")
+        while (True):
+            if (self.carregamento_habilidade == 0):
+                escolha = input("Desejar usar a sua habilidade 'Vida emergencial'? "
+                                "1 - sim"
+                                "2 - não")
+                if(escolha == "1"):
+                    break
+                elif(escolha == "2"):
+                    break
+                else:
+                    print("Opção invalida!")
+            else:
+                print(f"A habilidade está carregando, faltam {self.carregamento_habilidade} para poder utilizar novamente")
+                self.carregamento_habilidade -= 1
+                break

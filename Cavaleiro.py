@@ -37,15 +37,20 @@ class Cavaleiro(Personagem):
 
     def usar_habilidade_ativa(self, inimigo):
         while(True):
-            escolha = input("Desejar usar a sua habilidade 'O azarão'? "
-                            "1 - sim"
-                            "2 - não")
-            if(escolha == "1"):
-                inimigo.azarado = True
-                return inimigo.azarado
-            elif(escolha == "2"):
-                print("Habilidade não utilizada!")
-                break
+            if (self.carregamento_habilidade == 0):
+                escolha = input("Desejar usar a sua habilidade 'O azarão'? "
+                                "1 - sim"
+                                "2 - não")
+                if(escolha == "1"):
+                    inimigo.azarado = True
+                    return inimigo.azarado
+                elif(escolha == "2"):
+                    print("Habilidade não utilizada!")
+                    break
+                else:
+                    print("Opção invalida!")
+                    continue
             else:
-                print("Opção invalida!")
-                continue
+                print(f"A habilidade está carregando, faltam {self.carregamento_habilidade} para poder utilizar novamente")
+                self.carregamento_habilidade -= 1
+                break
