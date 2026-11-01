@@ -22,8 +22,8 @@ def calcular_ataque(atacante, defensor):
     return dano_final
 """
 
-cavaleiro = Paladino("Cavaleiro")
-mago = Mago("Mago")
-print(cavaleiro.stats.getAtaque())
-escolha = cavaleiro.escolher_acao()
-print(cavaleiro.acoes(escolha, mago))
+cavaleiro = Cavaleiro("Cavaleiro")
+
+cavaleiro.experiencia_ganha(3)
+cavaleiro.distruicao()
+print(cavaleiro.stats.getAtaque(), cavaleiro.stats.getDefesa(), cavaleiro.stats.getVida())
