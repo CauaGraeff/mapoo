@@ -6,12 +6,12 @@ class Paladino(Personagem):
 
     def escolher_acao(self):
         while(True):
-            escolha = input("Escolha uma ação do paladino: "
-                  "1 - Recuperação de vida"
-                  "2 - Corte prejudicial")
+            escolha = input("Escolha uma ação do paladino: \n"
+                  "1 - Recuperação de vida \n"
+                  "2 - Corte prejudicial \n")
             if(escolha == "1"):
                 self.prioridade = -1
-            if(escolha == "1" and escolha == "2"):
+            if(escolha != "1" and escolha != "2"):
                 print("Opção invalida!")
                 continue
             return escolha

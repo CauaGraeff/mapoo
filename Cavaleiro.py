@@ -2,22 +2,22 @@ from Personagem import Personagem
 
 class Cavaleiro(Personagem):
     def __init__(self, nome):
-        super().__init__(nome, 6, 10, 12)
+        super().__init__(nome, ataque = 6, defesa = 10, vida = 12)
         self.modo_defensivo = False
 
     def escolher_acao(self):
         while(True):
             if(not self.modo_defensivo):
-                escolha = input("Escolha uma ação do cavaleiro: "
-                    "1 - Corte Rápido"
-                    "2 - Defesa sólida")
+                escolha = input("Escolha uma ação do cavaleiro: \n"
+                    "1 - Corte Rápido \n"
+                    "2 - Defesa sólida \n")
             else:
                 escolha = "2"
             if(escolha != "1" and escolha != "2"):
                 print("Opção invalida!")
                 continue
             return escolha
-    def acoes(self, escolha, inimigo):
+    def acoes(self, escolha: str, inimigo):
         if (escolha == "1"):
             dano = 5
             defesa = 0
@@ -42,8 +42,10 @@ class Cavaleiro(Personagem):
                             "2 - não")
             if(escolha == "1"):
                 inimigo.azarado = True
+                return inimigo.azarado
             elif(escolha == "2"):
-                pass
+                print("Habilidade não utilizada!")
+                break
             else:
                 print("Opção invalida!")
                 continue

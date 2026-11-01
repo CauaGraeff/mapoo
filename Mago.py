@@ -7,13 +7,13 @@ class Mago(Personagem):
     def escolher_acao(self):
         while(True):
             if(not self.modo_carregamento):
-                escolha = input("Escolha uma ação do paladino: "
-                      "1 - Bola de fogo"
-                      "2 - Super bola de fogo")
+                escolha = input("Escolha uma ação do paladino: \n"
+                      "1 - Bola de fogo \n"
+                      "2 - Super bola de fogo \n")
             else:
                 escolha = "2"
 
-            if(escolha == "1" and escolha == "2"):
+            if(escolha != "1" and escolha != "2"):
                 print("Opção invalida!")
                 continue
             return escolha
