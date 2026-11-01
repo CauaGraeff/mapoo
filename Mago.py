@@ -4,7 +4,7 @@ class Mago(Personagem):
     def __init__(self, nome):
         super().__init__(nome, 10, 5, 7)
         self.modo_carregamento = False
-    def acao(self):
+    def escolher_acao(self):
         while(True):
             if(not self.modo_carregamento):
                 escolha = input("Escolha uma ação do paladino: "
@@ -13,24 +13,28 @@ class Mago(Personagem):
             else:
                 escolha = "2"
 
-            if(escolha == "1"):
-                dano = 5
-                defesa = 0
-                recuperacao_vida = 0
-                return dano, defesa, recuperacao_vida
-            elif(escolha == "2"):
-                dano = 13
-                defesa = 0
-                recuperacao_vida = 0
-                if (self.modo_carregamento):
-                    self.modo_carregamento = False
-                    return dano, defesa, recuperacao_vida
-                elif (not self.modo_carregamento):
-                    self.modo_carregamento = True
-                    return 0, 0, 0
-            else:
+            if(escolha == "1" and escolha == "2"):
                 print("Opção invalida!")
                 continue
+            return escolha
+    def acoes(self, escolha, inimigo):
+        if (escolha == "1"):
+            dano = 5
+            defesa = 0
+            recuperacao_vida = 0
+            diminuicao_ataque_inimigo = 0
+            return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+        elif (escolha == "2"):
+            dano = 13
+            defesa = 0
+            recuperacao_vida = 0
+            diminuicao_ataque_inimigo = 0
+            if (self.modo_carregamento):
+                self.modo_carregamento = False
+                return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+            elif (not self.modo_carregamento):
+                self.modo_carregamento = True
+                return 0, 0, 0, 0
     def usar_habilidade_ativa(self):
         escolha = input("Desejar usar uma de suas habilidades? "
                         "1 - sim"

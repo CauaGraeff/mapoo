@@ -6,8 +6,12 @@ class Personagem:
         self.nome = nome
         self.stats = Stats(ataque, defesa, vida)
         self.experiencia = 0
+        self.vida_perdida = 0
+        self.prioridade = 0
 
-    def acao(self):
+    def escolher_acao(self):
+        pass
+    def acoes(self):
         pass
 
     def experiencia_ganha(self, dificuldade):

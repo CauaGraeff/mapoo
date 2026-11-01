@@ -4,16 +4,28 @@ class Paladino(Personagem):
     def __init__(self, nome):
         super().__init__(nome, 7, 8, 8)
 
-    def acao(self):
-        escolha = input("Escolha uma ação do paladino: "
-              "1 - Recuperação de vida"
-              "2 - Corte prejudicial")
+    def escolher_acao(self):
+        while(True):
+            escolha = input("Escolha uma ação do paladino: "
+                  "1 - Recuperação de vida"
+                  "2 - Corte prejudicial")
+            if(escolha == "1"):
+                self.prioridade = -1
+            if(escolha == "1" and escolha == "2"):
+                print("Opção invalida!")
+                continue
+            return escolha
+    def acoes(self, escolha, inimigo):
         if(escolha == "1"):
-           pass
+            dano = 0
+            defesa = 0
+            recuperacao_vida = self.vida_perdida * 0.5
+            diminuicao_ataque_inimigo = 5
+            self.prioridade = 0
+            return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
         elif(escolha == "2"):
             pass
-        else:
-            print("Opção invalida!")
+
     def usar_habilidade_ativa(self):
         escolha = input("Desejar usar a sua habilidade 'Vida emergencial'? "
                         "1 - sim"
