@@ -2,22 +2,22 @@ from Personagem import Personagem
 
 class Mago(Personagem):
     def __init__(self, nome):
-        super().__init__(nome, 10, 5, 7)
+        super().__init__(nome, ataque = 10, defesa = 5, vida = 7)
         self.modo_carregamento = False
     def escolher_acao(self):
         while(True):
             if(not self.modo_carregamento):
-                escolha = input("Escolha uma ação do paladino: "
-                      "1 - Bola de fogo"
-                      "2 - Super bola de fogo")
+                escolha = input("Escolha uma ação do paladino: \n"
+                      "1 - Bola de fogo \n"
+                      "2 - Super bola de fogo \n")
             else:
                 escolha = "2"
 
-            if(escolha == "1" and escolha == "2"):
+            if(escolha != "1" and escolha != "2"):
                 print("Opção invalida!")
                 continue
             return escolha
-    def acoes(self, escolha, inimigo):
+    def acoes(self, escolha: str, inimigo):
         if (escolha == "1"):
             dano = 5
             defesa = 0
