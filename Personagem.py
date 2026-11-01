@@ -8,6 +8,7 @@ class Personagem:
         self.experiencia = 0
         self.vida_perdida = 0
         self.prioridade = 0
+        self.carregamento_habilidade = 0
 
     def escolher_acao(self):
         pass
