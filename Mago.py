@@ -2,7 +2,7 @@ from Personagem import Personagem
 
 class Mago(Personagem):
     def __init__(self, nome):
-        super().__init__(nome, 10, 5, 7)
+        super().__init__(nome, ataque = 10, defesa = 5, vida = 7)
         self.modo_carregamento = False
     def escolher_acao(self):
         while(True):
@@ -17,7 +17,7 @@ class Mago(Personagem):
                 print("Opção invalida!")
                 continue
             return escolha
-    def acoes(self, escolha, inimigo):
+    def acoes(self, escolha: str, inimigo):
         if (escolha == "1"):
             dano = 5
             defesa = 0

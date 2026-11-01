@@ -2,7 +2,7 @@ from Personagem import Personagem
 
 class Paladino(Personagem):
     def __init__(self, nome):
-        super().__init__(nome, 7, 8, 8)
+        super().__init__(nome, ataque = 7, defesa = 8, vida = 8)
 
     def escolher_acao(self):
         while(True):
@@ -15,7 +15,7 @@ class Paladino(Personagem):
                 print("Opção invalida!")
                 continue
             return escolha
-    def acoes(self, escolha, inimigo):
+    def acoes(self, escolha: str, inimigo):
         if(escolha == "1"):
             dano = 0
             defesa = 0
