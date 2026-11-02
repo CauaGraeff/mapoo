@@ -43,7 +43,7 @@ class Cavaleiro(Personagem):
                                 "2 - não")
                 if(escolha == "1"):
                     inimigo.azarado = True
-                    return inimigo.azarado
+                    return inimigo.azarado, inimigo.paralisado, self.sortudo
                 elif(escolha == "2"):
                     print("Habilidade não utilizada!")
                     break
