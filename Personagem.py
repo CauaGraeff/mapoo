@@ -9,6 +9,7 @@ class Personagem:
         self.vida_perdida = 0
         self.prioridade = 0
         self.carregamento_habilidade = 0
+        self.sortudo = False
 
     def escolher_acao(self):
         pass
