@@ -1,6 +1,10 @@
-from Personagem import Personagem
+from Paladino import Paladino
+from Cavaleiro import Cavaleiro
 import random
 
+from Mago import Mago
+
+"""
 def calcular_ataque(atacante, defensor):
     # 1. Rola o dado
     dado = random.randint(1, 6)
@@ -16,8 +20,10 @@ def calcular_ataque(atacante, defensor):
         dano_final = 1
 
     return dano_final
+"""
 
+cavaleiro = Cavaleiro("Cavaleiro")
 
-cavaleiro = Personagem("Cavaleiro")
-
-print(cavaleiro.stats.getAtaque())
+cavaleiro.experiencia_ganha(3)
+cavaleiro.distruicao()
+print(cavaleiro.stats.getAtaque(), cavaleiro.stats.getDefesa(), cavaleiro.stats.getVida())
