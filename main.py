@@ -86,8 +86,10 @@ def main():
     print(f"Defesa: {jogador.stats.getDefesa()}")
     print(f"Vida: {jogador.stats.getVida()}")
 
+
 if __name__ == "__main__":
     main()
+
     """
 def calcular_ataque(atacante, defensor):
     # 1. Rola o dado
@@ -105,9 +107,3 @@ def calcular_ataque(atacante, defensor):
 
     return dano_final
 """
-
-cavaleiro = Cavaleiro("Cavaleiro")
-
-cavaleiro.experiencia_ganha(3)
-cavaleiro.distruicao()
-print(cavaleiro.stats.getAtaque(), cavaleiro.stats.getDefesa(), cavaleiro.stats.getVida())
