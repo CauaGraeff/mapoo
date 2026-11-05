@@ -19,7 +19,7 @@ class Paladino(Personagem):
         if(escolha == "1"):
             dano = 0
             defesa = 0
-            recuperacao_vida = self.vida_perdida * 0.5
+            recuperacao_vida = int(self.vida_perdida * 0.5)
             diminuicao_ataque_inimigo = 0
             self.prioridade = 0
             return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
@@ -29,7 +29,7 @@ class Paladino(Personagem):
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 5
             return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
-    def usar_habilidade_ativa(self):
+    def usar_habilidade_ativa(self, inimigo):
         escolha = input("Desejar usar a sua habilidade 'Vida emergencial'? "
                         "1 - sim"
                         "2 - não")

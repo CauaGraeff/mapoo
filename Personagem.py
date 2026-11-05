@@ -7,7 +7,9 @@ class Personagem:
         self.stats = Stats(ataque, defesa, vida)
         self.experiencia = 0
         self.vida_perdida = 0
+        self.vida_maxima = vida
         self.prioridade = 0
+        self.defesa_temporaria = 0
 
     def escolher_acao(self):
         pass
@@ -41,6 +43,8 @@ class Personagem:
                     self.stats.setAtaque(x)
                     self.stats.setDefesa(y)
                     self.stats.setVida(z)
+                    self.vida_maxima += z
+                    self.vida_perdida = self.vida_maxima - self.stats.getVida()
                     self.experiencia -= (x + y + z)
                     break
             except ValueError:

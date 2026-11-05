@@ -35,7 +35,7 @@ class Mago(Personagem):
             elif (not self.modo_carregamento):
                 self.modo_carregamento = True
                 return 0, 0, 0, 0
-    def usar_habilidade_ativa(self):
+    def usar_habilidade_ativa(self, inimigo):
         escolha = input("Desejar usar uma de suas habilidades? "
                         "1 - sim"
                         "2 - não")
