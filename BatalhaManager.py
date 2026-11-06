@@ -1,5 +1,5 @@
 import random
-
+from Mago import Mago
 from Stats import Stats
 
 def rolar_d20_e_calcular_dano(dano_base: float, personagem) -> tuple[int, str]:
@@ -54,93 +54,80 @@ class BatalhaManager:
         elif self.vida_atual_monstro <= 0:
             return self.heroi
         return None
+    def ataque_heroi(self, dano_h, defesa_i):
+        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_h + self.heroi.stats.getAtaque(), self.heroi)
+        dano_real = max(0, dano_calculado - defesa_i)
+        self.vida_atual_monstro -= dano_real
+        print(f"{self.heroi.nome} atacou! {msg_dado} Dano aplicado ao inimigo: {dano_real}")
+    def cura_heroi(self, cura_h):
+        self.vida_atual_heroi += cura_h
+        print(f"{self.heroi.nome} recuperou {cura_h} de vida.")
+    def ataque_inimigo(self, dano_i, defesa_h):
+        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque(), self.monstro)
+        dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h))
+        self.vida_atual_heroi -= dano_real
+        print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
+        if isinstance(self.heroi, Mago):
+            if self.heroi.escudo_imperfeito:
+                self.vida_atual_monstro -= (dano_real / 2)
+                print("Dano rebatido")
+                self.heroi.escudo_imperfeito = False
+    def cura_inimigo(self, cura_i):
+        self.vida_atual_monstro += cura_i
+        print(f"{self.monstro.nome} recuperou {cura_i} de vida.")
+
 
     def executar_turno(self):
         while True:
             print(f"\n--- TURNO {self.__turno_atual} ---")
 
-            # 1. Escolha de ações
             self.heroi.usar_habilidade_ativa(self.monstro)
             acao_heroi = self.heroi.escolher_acao()
             acao_monstro = self.monstro.escolher_acao()
             dano_h, defesa_h, cura_h, debuff_h = self.heroi.acoes(acao_heroi, self.monstro)
             dano_i, defesa_i, cura_i, debuff_i = self.monstro.acoes(acao_monstro, self.heroi)
 
-            # 2. Execução do ataque com rolagem do d20
             if self.heroi.prioridade == self.monstro.prioridade:
                 aleatorio = random.randint(1, 2)
                 if aleatorio == 1:
                     if dano_h > 0:
-                        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_h + self.heroi.stats.getAtaque(), self.heroi)
-                        dano_real = max(0, dano_calculado - self.monstro.stats.getDefesa())
-                        self.vida_atual_monstro -= dano_real
-                        print(f"{self.heroi.nome} atacou! {msg_dado} Dano aplicado ao inimigo: {dano_real}")
+                        self.ataque_heroi(dano_h, self.monstro.stats.getDefesa())
                     if cura_h > 0:
-                        self.vida_atual_heroi += cura_h
-                        print(f"{self.heroi.nome} recuperou {cura_h} de vida.")
-                    if dano_i > 0 and not self.monstro.paralisado:
-                        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque(), self.monstro)
-                        dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h))
-                        self.vida_atual_heroi -= dano_real
-                        print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
-                    if cura_i > 0 and not self.monstro.paralisado:
-                        self.vida_atual_monstro += cura_i
-                        print(f"{self.monstro.nome} recuperou {cura_i} de vida.")
+                        self.cura_heroi(cura_h)
+                    if dano_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
+                        self.ataque_inimigo(dano_i, defesa_h)
+                    if cura_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
+                        self.cura_inimigo(cura_i)
                 else:
                     if dano_i > 0 and not self.monstro.paralisado:
-                        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque(), self.monstro)
-                        dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h))
-                        self.vida_atual_heroi -= dano_real
-                        print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
+                        self.ataque_inimigo(dano_i, defesa_h)
                     if cura_i > 0 and not self.monstro.paralisado:
-                        self.vida_atual_monstro += cura_i
-                        print(f"{self.monstro.nome} recuperou {cura_i} de vida.")
+                        self.cura_inimigo(cura_i)
                     if dano_h > 0:
-                        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_h + self.heroi.stats.getAtaque(), self.heroi)
-                        dano_real = max(0, dano_calculado - self.monstro.stats.getDefesa())
-                        self.vida_atual_monstro -= dano_real
-                        print(f"{self.heroi.nome} atacou! {msg_dado} Dano aplicado ao inimigo: {dano_real}")
+                        self.ataque_heroi(dano_h, self.monstro.stats.getDefesa())
                     if cura_h > 0:
-                        self.vida_atual_heroi += cura_h
-                        print(f"{self.heroi.nome} recuperou {cura_h} de vida.")
+                        self.cura_heroi(cura_h)
 
             elif self.heroi.prioridade < self.monstro.prioridade:
                 if dano_i > 0 and not self.monstro.paralisado:
-                    dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque(), self.monstro)
-                    dano_real = max(0, dano_calculado - self.heroi.stats.getDefesa() + defesa_h)
-                    self.vida_atual_heroi -= dano_real
-                    print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
+                    self.ataque_inimigo(dano_i, defesa_h)
                 if cura_i > 0 and not self.monstro.paralisado:
-                    self.vida_atual_monstro += cura_i
-                    print(f"{self.monstro.nome} recuperou {cura_i} de vida.")
+                    self.cura_inimigo(cura_i)
                 if dano_h > 0:
-                    dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_h + self.heroi.stats.getAtaque(), self.heroi)
-                    dano_real = max(0, dano_calculado - self.monstro.stats.getDefesa())
-                    self.vida_atual_monstro -= dano_real
-                    print(f"{self.heroi.nome} atacou! {msg_dado} Dano aplicado ao inimigo: {dano_real}")
+                    self.ataque_heroi(dano_h, self.monstro.stats.getDefesa())
                 if cura_h > 0:
-                    self.vida_atual_heroi += cura_h
-                    print(f"{self.heroi.nome} recuperou {cura_h} de vida.")
+                    self.cura_heroi(cura_h)
 
             elif self.heroi.prioridade > self.monstro.prioridade:
                 if dano_h > 0:
-                    dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_h + self.heroi.stats.getAtaque(), self.heroi)
-                    dano_real = max(0, dano_calculado - self.monstro.stats.getDefesa())
-                    self.vida_atual_monstro -= dano_real
-                    print(f"{self.heroi.nome} atacou! {msg_dado} Dano aplicado ao inimigo: {dano_real}")
+                    self.ataque_heroi(dano_h, self.monstro.stats.getDefesa())
                 if cura_h > 0:
-                    self.vida_atual_heroi += cura_h
-                    print(f"{self.heroi.nome} recuperou {cura_h} de vida.")
-                if dano_i > 0 and not self.monstro.paralisado:
-                    dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque(), self.monstro)
-                    dano_real = max(0, dano_calculado - self.heroi.stats.getDefesa() + defesa_h)
-                    self.vida_atual_heroi -= dano_real
-                    print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
-                if cura_i > 0 and not self.monstro.paralisado:
-                    self.vida_atual_monstro += cura_i
-                    print(f"{self.monstro.nome} recuperou {cura_i} de vida.")
+                    self.cura_heroi(cura_h)
+                if dano_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
+                    self.ataque_inimigo(dano_i, defesa_h)
+                if cura_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
+                    self.cura_inimigo(cura_i)
 
-        # 3. Checagem de vencedor
             vencedor = self.__verificar_vencedor()
             if vencedor:
                 print(f"\nBatalha Encerrada! Vencedor: {vencedor.nome}")

@@ -17,7 +17,7 @@ class Personagem:
     def acoes(self):
         pass
 
-    def experiencia_ganha(self, dificuldade):
+    def experiencia_ganha(self, dificuldade: int):
         if(dificuldade == 1):
             self.experiencia += 2
         elif (dificuldade == 2):
@@ -30,8 +30,8 @@ class Personagem:
     def distruicao(self):
         while(True):
             try:
-                print(f"Tu tem no momento essa quantidade de experiência {self.experiencia}, \n"
-                      f"coloque como tu deseja distribuir os pontos de experiência do personagem na seguinte forma: \n"
+                print(f"Você possui no momento {self.experiencia} de XP. \n"
+                      f"Distribua seus pontos de experiências entre ataque, defesa e vida respectivamente. Modelo de escrita: X X X. \n"
                       f"ataque, defesa, vida \n")
                 x, y, z = map(int, input().split())
                 if(x < 0 or y < 0 or z < 0):

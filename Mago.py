@@ -4,6 +4,7 @@ class Mago(Personagem):
     def __init__(self, nome):
         super().__init__(nome, ataque = 10, defesa = 5, vida = 7)
         self.modo_carregamento = False
+        self.escudo_imperfeito = False
     def escolher_acao(self):
         while(True):
             if(not self.modo_carregamento):
@@ -55,9 +56,7 @@ class Mago(Personagem):
                         self.carregamento_habilidade = 2
                         break
                     elif(habilidade == "3"):
-                        self.prioridade = -1
-                        inimigo.dano = self.vida_perdida / 2
-                        self.carregamento_habilidade = 2
+                        self.escudo_imperfeito = True
                         break
                     else:
                         print("Opção invalida!")

@@ -9,4 +9,3 @@ goblin = Goblin()
 teste = BatalhaManager(cavaleiro, goblin)
 
 teste.executar_turno()
-
