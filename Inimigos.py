@@ -10,6 +10,8 @@ class Inimigos:
         self.paralisado = False
         self.vida_perdida = 0
         self.prioridade = 0
+        self.azarado = False
+        self.sortudo = False
 
     def escolher_acao(self):
         pass
@@ -22,7 +24,7 @@ class Inimigos:
 class Goblin(Inimigos):
 
     def __init__(self):
-        super().__init__("Goblin", 1, 3, 2, 8)
+        super().__init__("Goblin", 1, 10, 10, 30)
 
     def escolher_acao(self):
         return "1"

@@ -10,6 +10,7 @@ class Personagem:
         self.prioridade = 0
         self.carregamento_habilidade = 0
         self.sortudo = False
+        self.azarado = False
 
     def escolher_acao(self):
         pass

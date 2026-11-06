@@ -26,7 +26,7 @@ class Cavaleiro(Personagem):
             return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
         elif (escolha == "2"):
             dano = 0
-            defesa = 5
+            defesa = 10
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 0
             if (self.modo_defensivo):
@@ -38,12 +38,13 @@ class Cavaleiro(Personagem):
     def usar_habilidade_ativa(self, inimigo):
         while(True):
             if (self.carregamento_habilidade == 0):
-                escolha = input("Desejar usar a sua habilidade 'O azarão'? "
-                                "1 - sim"
-                                "2 - não")
+                escolha = input("Desejar usar a sua habilidade 'O azarão'? \n"
+                                "1 - sim \n"
+                                "2 - não \n")
                 if(escolha == "1"):
                     inimigo.azarado = True
-                    return inimigo.azarado, inimigo.paralisado, self.sortudo
+                    self.carregamento_habilidade = 2
+                    break
                 elif(escolha == "2"):
                     print("Habilidade não utilizada!")
                     break
