@@ -35,23 +35,29 @@ class Mago(Personagem):
             elif (not self.modo_carregamento):
                 self.modo_carregamento = True
                 return 0, 0, 0, 0
-    def usar_habilidade_ativa(self):
+    def usar_habilidade_ativa(self, inimigo):
         while (True):
-            if(self.modo_carregamento == 0):
-
+            if(self.carregamento_habilidade == 0):
                 escolha = input("Desejar usar uma de suas habilidades? "
                                 "1 - sim"
                                 "2 - não")
                 if(escolha == "1"):
-                    habilidade = input("Qual habidade? "
-                                    "1 - Raio paralisante"
-                                    "2 - Double luck"
-                                    "3 - Escudo imperfeito")
+                    habilidade = input("Qual habidade? \n"
+                                    "1 - Raio paralisante \n"
+                                    "2 - Double luck \n"
+                                    "3 - Escudo imperfeito \n")
                     if(habilidade == "1"):
+                        inimigo.paralisado = True
+                        self.carregamento_habilidade = 2
                         break
                     elif(habilidade == "2"):
+                        self.sortudo = True
+                        self.carregamento_habilidade = 2
                         break
                     elif(habilidade == "3"):
+                        self.prioridade = -1
+                        inimigo.dano = self.vida_perdida / 2
+                        self.carregamento_habilidade = 2
                         break
                     else:
                         print("Opção invalida!")
