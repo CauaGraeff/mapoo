@@ -25,14 +25,16 @@ class Paladino(Personagem):
             defesa = 0
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 0
+            diminuicao_defesa_inimigo = 0
             self.recuperacao_vida = True
-            return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+            return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
         elif(escolha == "2"):
             dano = 5
             defesa = 0
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 5
-            return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+            diminuicao_defesa_inimigo = 0
+            return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
     def usar_habilidade_ativa(self, inimigo):
         while (True):
             if self.carregamento_habilidade == 3:

@@ -3,6 +3,8 @@ from Mago import Mago
 from Stats import Stats
 from Paladino import Paladino
 import math
+from Inimigos import Tyranid, Nurgle
+
 
 def rolar_d20_e_calcular_dano(dano_base: float, personagem) -> tuple[int, str]:
     """
@@ -18,6 +20,13 @@ def rolar_d20_e_calcular_dano(dano_base: float, personagem) -> tuple[int, str]:
             if temporario < d20 or i == 0:
                 d20 = temporario
         personagem.azarado = False
+    elif isinstance(personagem, Tyranid):
+        if personagem.instinto_colmeia:
+            for i in range(2):
+                temporario = random.randint(1, 20)
+                if temporario > d20 or i == 0:
+                    d20 = temporario
+            personagem.duracao_instinto_colmeia -= 1
     elif personagem.sortudo:
         for i in range(2):
             temporario = random.randint(1, 20)
@@ -56,21 +65,24 @@ class BatalhaManager:
         elif self.vida_atual_monstro <= 0:
             return self.heroi
         return None
-    def ataque_heroi(self, dano_h, defesa_i):
-        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_h + self.heroi.stats.getAtaque(), self.heroi)
-        dano_real = max(0, dano_calculado - defesa_i)
+
+    def ataque_heroi(self, dano_h, defesa_i, debuff_ataque_i, debuff_defesa_h):
+        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_h + self.heroi.stats.getAtaque() - debuff_ataque_i, self.heroi)
+        dano_real = max(0, dano_calculado - (self.monstro.stats.getDefesa() + defesa_i - debuff_defesa_h))
         self.vida_atual_monstro -= dano_real
         print(f"{self.heroi.nome} atacou! {msg_dado} Dano aplicado ao inimigo: {dano_real}")
         self.monstro.vida_perdida = dano_real
+
     def cura_heroi(self, cura_h):
         self.vida_atual_heroi += cura_h
         print(f"{self.heroi.nome} recuperou {cura_h} de vida.")
-    def ataque_inimigo(self, dano_i, defesa_h, debuff_i):
-        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque() - debuff_i,
+
+    def ataque_inimigo(self, dano_i, defesa_h, debuff_ataque_h, debuff_defesa_i):
+        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque() - debuff_ataque_h,
                                                  self.monstro)
         if isinstance(self.heroi, Paladino):
             if self.heroi.vida_emergencial and self.heroi.vida_extra >= 0:
-                dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h))
+                dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h - debuff_defesa_i))
                 self.heroi.vida_extra -= dano_real
                 print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
                 self.heroi.vida_perdida = dano_real
@@ -79,7 +91,7 @@ class BatalhaManager:
                     self.heroi.vida_emergencial = False
                     self.heroi.carregamento_habilidade = 3
                 return
-        dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h))
+        dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h - debuff_defesa_i))
         self.vida_atual_heroi -= dano_real
         print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
         self.heroi.vida_perdida = dano_real
@@ -102,27 +114,38 @@ class BatalhaManager:
             self.heroi.usar_habilidade_ativa(self.monstro)
             acao_heroi = self.heroi.escolher_acao()
             acao_monstro = self.monstro.escolher_acao()
-            dano_h, defesa_h, cura_h, debuff_h = self.heroi.acoes(acao_heroi, self.monstro)
-            dano_i, defesa_i, cura_i, debuff_i = self.monstro.acoes(acao_monstro, self.heroi)
+            dano_h, defesa_h, cura_h, debuff_ataque_h, debuff_defesa_h = self.heroi.acoes(acao_heroi, self.monstro)
+            dano_i, defesa_i, cura_i, debuff_ataque_i, debuff_defesa_i = self.monstro.acoes(acao_monstro, self.heroi)
+
+            self.monstro.usar_habilidade_ativa(self.heroi)
+            if isinstance(self.monstro, Nurgle):
+                if self.monstro.apodrecimento:
+                    if self.monstro.carregamento_habilidade == 3:
+                        self.monstro.apodrecimento = False
+                    debuff_defesa_i += 7
+                    debuff_ataque_i += 7
 
             if self.heroi.prioridade == self.monstro.prioridade:
                 aleatorio = random.randint(1, 2)
                 if aleatorio == 1:
                     if dano_h > 0:
-                        self.ataque_heroi(dano_h, self.monstro.stats.getDefesa())
+                        self.ataque_heroi(dano_h, defesa_i, debuff_ataque_i, debuff_defesa_h)
                     if cura_h > 0:
                         self.cura_heroi(cura_h)
                     if dano_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
-                        self.ataque_inimigo(dano_i, defesa_h, debuff_i)
+                        self.ataque_inimigo(dano_i, defesa_h, debuff_ataque_h, debuff_defesa_i)
                     if cura_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
                         self.cura_inimigo(cura_i)
+                    if isinstance(self.monstro, Nurgle):
+                        if self.monstro.vida_perdida > 0 and self.monstro.apodrecimento:
+                            self.vida_atual_heroi -= 10
                 else:
                     if dano_i > 0 and not self.monstro.paralisado:
-                        self.ataque_inimigo(dano_i, defesa_h, debuff_i)
+                        self.ataque_inimigo(dano_i, defesa_h, debuff_ataque_h, debuff_defesa_i)
                     if cura_i > 0 and not self.monstro.paralisado:
                         self.cura_inimigo(cura_i)
                     if dano_h > 0:
-                        self.ataque_heroi(dano_h, self.monstro.stats.getDefesa())
+                        self.ataque_heroi(dano_h, defesa_i, debuff_ataque_i, debuff_defesa_h)
                     if cura_h > 0:
                         self.cura_heroi(cura_h)
                     if isinstance(self.heroi, Paladino):
@@ -134,11 +157,11 @@ class BatalhaManager:
 
             elif self.heroi.prioridade < self.monstro.prioridade:
                 if dano_i > 0 and not self.monstro.paralisado:
-                    self.ataque_inimigo(dano_i, defesa_h, debuff_i)
+                    self.ataque_inimigo(dano_i, defesa_h, debuff_ataque_h, debuff_defesa_i)
                 if cura_i > 0 and not self.monstro.paralisado:
                     self.cura_inimigo(cura_i)
                 if dano_h > 0:
-                    self.ataque_heroi(dano_h, self.monstro.stats.getDefesa())
+                    self.ataque_heroi(dano_h, defesa_i, debuff_ataque_i, debuff_defesa_h)
                 if cura_h > 0:
                     self.cura_heroi(cura_h)
                 if isinstance(self.heroi, Paladino):
@@ -150,13 +173,16 @@ class BatalhaManager:
 
             elif self.heroi.prioridade > self.monstro.prioridade:
                 if dano_h > 0:
-                    self.ataque_heroi(dano_h, self.monstro.stats.getDefesa())
+                    self.ataque_heroi(dano_h, defesa_i, debuff_ataque_i, debuff_defesa_h)
                 if cura_h > 0:
                     self.cura_heroi(cura_h)
                 if dano_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
-                    self.ataque_inimigo(dano_i, defesa_h, debuff_i)
+                    self.ataque_inimigo(dano_i, defesa_h, debuff_ataque_h, debuff_defesa_i)
                 if cura_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
                     self.cura_inimigo(cura_i)
+                if isinstance(self.monstro, Nurgle):
+                    if self.monstro.vida_perdida > 0 and self.monstro.apodrecimento:
+                        self.vida_atual_heroi -= 10
 
             vencedor = self.__verificar_vencedor()
             if vencedor:
@@ -164,6 +190,8 @@ class BatalhaManager:
                 return vencedor
 
             self.__turno_atual += 1
-            print(f"Vida atual cavaleiro: {self.vida_atual_heroi}")
-            print(f"Vida atual goblin: {self.vida_atual_monstro}")
+            print(f"Vida atual {self.heroi.nome}: {self.vida_atual_heroi}")
+            print(f"Vida atual {self.monstro.nome}: {self.vida_atual_monstro}")
             self.monstro.paralisado = False
+            self.heroi.vida_perdida = 0
+            self.monstro.vida_perdida = 0

@@ -12,6 +12,7 @@ class Inimigos:
         self.prioridade = 0
         self.azarado = False
         self.sortudo = False
+        self.carregamento_habilidade = 0
 
     def escolher_acao(self):
         pass
@@ -19,6 +20,8 @@ class Inimigos:
     def acoes(self, escolha: str, personagem):
         pass
 
+    def usar_habilidade_ativa(self, personagem):
+        pass
 
 # INIMIGO FRACO - NIVEL 1
 class Goblin(Inimigos):
@@ -34,8 +37,9 @@ class Goblin(Inimigos):
         defesa = 0
         recuperacao_vida = 0
         diminuicao_ataque_inimigo = 0
+        diminuicao_defesa_inimigo = 0
 
-        return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+        return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
 
 # INIMIGO MEDIO - NIVEL 1
@@ -52,14 +56,14 @@ class Orc(Inimigos):
         defesa = 0
         recuperacao_vida = 0
         diminuicao_ataque_inimigo = 0
-
+        diminuicao_defesa_inimigo = 0
         if escolha == "1":
             dano = 6
 
         elif escolha == "2":
             recuperacao_vida = 6
 
-        return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+        return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
 
 # INIMIGO FORTE - NIVEL 2
@@ -68,24 +72,32 @@ class Tyranid(Inimigos):
     def __init__(self):
         super().__init__("Tyranid", 3, 14, 8, 23)
 
+        self.duracao_instinto_colmeia = 0
         self.instinto_colmeia = False
 
     def escolher_acao(self):
-        return random.choice(["1", "2"])
+        if self.duracao_instinto_colmeia == 0:
+            self.instinto_colmeia = False
+        if not self.instinto_colmeia:
+            return random.choice(["1", "2"])
+        else:
+            return "1"
 
     def acoes(self, escolha: str, personagem):
         dano = 0
         defesa = 0
         recuperacao_vida = 0
         diminuicao_ataque_inimigo = 0
+        diminuicao_defesa_inimigo = 0
 
         if escolha == "1":
             dano = 17
 
         elif escolha == "2":
             self.instinto_colmeia = True
+            self.duracao_instinto_colmeia = 2
 
-        return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+        return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
 
 # CHEFAO - NIVEL 3
@@ -95,12 +107,10 @@ class Nurgle(Inimigos):
         super().__init__("Nurgle", 3, 18, 13, 30)
 
         self.modo_escudo_corrosivo = False
-        self.apodrecimento = 0
-        self.bomba_veneno = 0
-
+        self.apodrecimento = False
     def escolher_acao(self):
         if not self.modo_escudo_corrosivo:
-            escolha = random.choice(["1", "2", "3", "4"])
+            escolha = random.choice(["1", "2"])
             if escolha == "1":
                 self.prioridade = -5
             return escolha
@@ -112,27 +122,28 @@ class Nurgle(Inimigos):
         defesa = 0
         recuperacao_vida = 0
         diminuicao_ataque_inimigo = 0
+        diminuicao_defesa_inimigo = 0
 
         if escolha == "1":
-            if self.vida_perdida == 0:
-                dano = 10
-                if (self.modo_escudo_corrosivo):
-                    self.modo_escudo_corrosivo = False
-                elif (not self.modo_escudo_corrosivo):
-                    self.modo_escudo_corrosivo = True
-                return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+            self.prioridade = -5
+            if (self.modo_escudo_corrosivo):
+                self.modo_escudo_corrosivo = False
+            elif (not self.modo_escudo_corrosivo):
+                self.modo_escudo_corrosivo = True
+                return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
+
 
         elif escolha == "2":
             dano = 18
 
-        elif escolha == "3":
-            self.apodrecimento = 2
-            diminuicao_ataque_inimigo = 7
+        return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
-        elif escolha == "4":
-            self.bomba_veneno = 3
-
-        return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+    def usar_habilidade_ativa(self, personagem):
+        if self.carregamento_habilidade == 0:
+            self.apodrecimento = True
+            self.carregamento_habilidade = 4
+        else:
+            self.carregamento_habilidade -= 1
 
 
 # TESTES

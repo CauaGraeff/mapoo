@@ -24,15 +24,17 @@ class Mago(Personagem):
             defesa = 0
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 0
-            return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+            diminuicao_defesa_inimigo = 0
+            return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
         elif (escolha == "2"):
             dano = 13
             defesa = 0
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 0
+            diminuicao_defesa_inimigo = 0
             if (self.modo_carregamento):
                 self.modo_carregamento = False
-                return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
+                return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
             elif (not self.modo_carregamento):
                 self.modo_carregamento = True
                 return 0, 0, 0, 0
