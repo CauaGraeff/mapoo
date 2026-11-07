@@ -5,9 +5,11 @@ class Paladino(Personagem):
         super().__init__(nome, ataque = 7, defesa = 8, vida = 8)
         self.vida_emergencial = False
         self.vida_extra = 0
+        self.recuperacao_vida = False
 
     def escolher_acao(self):
         while(True):
+            self.prioridade = 0
             escolha = input("Escolha uma ação do paladino: \n"
                   "1 - Recuperação de vida \n"
                   "2 - Corte prejudicial \n")
@@ -21,9 +23,9 @@ class Paladino(Personagem):
         if(escolha == "1"):
             dano = 0
             defesa = 0
-            recuperacao_vida = self.vida_perdida * 0.5
+            recuperacao_vida = 0
             diminuicao_ataque_inimigo = 0
-            self.prioridade = 0
+            self.recuperacao_vida = True
             return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo
         elif(escolha == "2"):
             dano = 5

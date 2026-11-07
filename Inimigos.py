@@ -24,7 +24,7 @@ class Inimigos:
 class Goblin(Inimigos):
 
     def __init__(self):
-        super().__init__("Goblin", 1, 10, 10, 30)
+        super().__init__("Goblin", 1, 5, 20, 30)
 
     def escolher_acao(self):
         return "1"
