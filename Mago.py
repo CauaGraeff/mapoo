@@ -57,6 +57,7 @@ class Mago(Personagem):
                         break
                     elif(habilidade == "3"):
                         self.escudo_imperfeito = True
+                        self.carregamento_habilidade = 2
                         break
                     else:
                         print("Opção invalida!")

@@ -1,6 +1,7 @@
 import random
 from Mago import Mago
 from Stats import Stats
+from Paladino import Paladino
 
 def rolar_d20_e_calcular_dano(dano_base: float, personagem) -> tuple[int, str]:
     """
@@ -63,7 +64,18 @@ class BatalhaManager:
         self.vida_atual_heroi += cura_h
         print(f"{self.heroi.nome} recuperou {cura_h} de vida.")
     def ataque_inimigo(self, dano_i, defesa_h):
-        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque(), self.monstro)
+        dano_calculado, msg_dado = rolar_d20_e_calcular_dano(dano_i + self.monstro.stats.getAtaque(),
+                                                 self.monstro)
+        if isinstance(self.heroi, Paladino):
+            if self.heroi.vida_emergencial and self.heroi.vida_extra >= 0:
+                dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h))
+                self.heroi.vida_extra -= dano_real
+                print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
+                if self.heroi.vida_extra <= 0:
+                    self.vida_atual_heroi += self.heroi.vida_extra
+                    self.heroi.vida_emergencial = False
+                    self.heroi.carregamento_habilidade = 3
+                return
         dano_real = max(0, dano_calculado - (self.heroi.stats.getDefesa() + defesa_h))
         self.vida_atual_heroi -= dano_real
         print(f"{self.monstro.nome} atacou! {msg_dado} Dano aplicado ao heroi: {dano_real}")
@@ -72,6 +84,8 @@ class BatalhaManager:
                 self.vida_atual_monstro -= (dano_real / 2)
                 print("Dano rebatido")
                 self.heroi.escudo_imperfeito = False
+
+
     def cura_inimigo(self, cura_i):
         self.vida_atual_monstro += cura_i
         print(f"{self.monstro.nome} recuperou {cura_i} de vida.")

@@ -43,7 +43,7 @@ class Cavaleiro(Personagem):
                                 "2 - não \n")
                 if(escolha == "1"):
                     inimigo.azarado = True
-                    self.carregamento_habilidade = 2
+                    self.carregamento_habilidade = 3
                     break
                 elif(escolha == "2"):
                     print("Habilidade não utilizada!")
