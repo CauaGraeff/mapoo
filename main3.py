@@ -1,3 +1,5 @@
+"""Abre uma janela simples para mostrar as telas de escolha do jogo."""
+
 import pygame
 import sys
 
@@ -58,6 +60,7 @@ botoes_personagens = [
 
 # Loop Principal
 while True:
+    # Lê os cliques e fecha a janela quando o jogador pede.
     pos_mouse = pygame.mouse.get_pos()
     clique = False
 
@@ -73,6 +76,7 @@ while True:
 
     #Códigos para organizar as telas
 
+    # Desenha a tela que combina com o momento atual do jogo.
     if estado_atual == TELA_INICIAL:
         if imagem_fundo:
             tela.blit(imagem_fundo, (0, 0))

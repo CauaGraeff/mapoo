@@ -1,8 +1,11 @@
+"""Guarda o que todos os heróis têm em comum."""
+
 from Stats import Stats
 
 class Personagem:
 
     def __init__(self, nome, ataque, defesa, vida):
+        # Cria a ficha básica do herói.
         self.nome = nome
         self.stats = Stats(ataque, defesa, vida)
         self.experiencia = 0
@@ -18,6 +21,7 @@ class Personagem:
         pass
 
     def experiencia_ganha(self, dificuldade: int):
+        # Inimigos mais difíceis dão mais pontos de experiência.
         if(dificuldade == 1):
             self.experiencia += 2
         elif (dificuldade == 2):
@@ -28,6 +32,7 @@ class Personagem:
             print("Entrada invalida.")
 
     def distruicao(self):
+        # O jogador reparte seus pontos para melhorar a ficha.
         while(True):
             try:
                 print(f"Você possui no momento {self.experiencia} de XP. \n"

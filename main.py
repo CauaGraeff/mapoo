@@ -1,3 +1,5 @@
+"""Mostra as informações dos heróis e deixa escolher um para jogar."""
+
 import random
 from Paladino import Paladino
 from Cavaleiro import Cavaleiro
@@ -5,6 +7,7 @@ from Mago import Mago
 
 #função de visualização das habilidades de cada personagem
 def exibir_menu_detalhado():
+    # Explica ao jogador como cada herói funciona.
     print("\n          PAINEL DE HABILIDADE DE CADA PERSONAGEM\n")
 #CAVALEIRO
     print("1 - Cavaleiro")
@@ -52,6 +55,7 @@ def exibir_menu_detalhado():
 
 #função para escolha do personagem
 def escolher_personagem():
+    # Repete a pergunta até receber uma opção que exista.
     exibir_menu_detalhado()
 
     print("\nSELEÇÃO DE PERSONAGEM")
@@ -75,6 +79,7 @@ def escolher_personagem():
             print("Opção incorreta! Escolha 1,2 ou 3.")
 
 def main():
+    # Começa escolhendo um herói e distribuindo os pontos de experiência.
     jogador = escolher_personagem()
     print(f"\n{jogador.nome} seu personagem foi selecionado!")
 
