@@ -126,8 +126,6 @@ class Nurgle(Inimigos):
         # Com o escudo desligado, Nurgle escolhe entre se proteger ou atacar.
         if not self.modo_escudo_corrosivo:
             escolha = random.choice(["1", "2"])
-            if escolha == "1":
-                self.prioridade = -5
             return escolha
         else:
             # Enquanto o escudo está ligado, Nurgle escolhe a ação de proteção.
@@ -144,8 +142,10 @@ class Nurgle(Inimigos):
             # Liga ou desliga o escudo corrosivo; ao ligá-lo, não causa dano.
             if (self.modo_escudo_corrosivo):
                 self.modo_escudo_corrosivo = False
+                self.prioridade = 0
             elif (not self.modo_escudo_corrosivo):
                 self.modo_escudo_corrosivo = True
+                self.prioridade = 5
                 return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
 
