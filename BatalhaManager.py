@@ -183,6 +183,10 @@ class BatalhaManager:
                             self.vida_atual_heroi = min(self.vida_atual_heroi, self.heroi.stats.getVida())
                             print(f"{self.heroi.nome} recuperou {self.heroi.vida_perdida / 2} de vida.")
                             self.heroi.recuperacao_vida = False
+                    if isinstance(self.monstro, Nurgle):
+                        if self.monstro.vida_perdida > 0 and self.monstro.apodrecimento:
+                            # Se Nurgle foi ferido enquanto apodrecia, também causa dano extra.
+                            self.vida_atual_heroi -= 10
 
             elif self.heroi.prioridade < self.monstro.prioridade:
                 # O número menor de prioridade faz o herói agir depois do monstro.
@@ -201,6 +205,10 @@ class BatalhaManager:
                         self.vida_atual_heroi = min(self.vida_atual_heroi, self.heroi.stats.getVida())
                         print(f"{self.heroi.nome} recuperou {self.heroi.vida_perdida / 2} de vida.")
                         self.heroi.recuperacao_vida = False
+                if isinstance(self.monstro, Nurgle):
+                    if self.monstro.vida_perdida > 0 and self.monstro.apodrecimento:
+                        # Se Nurgle foi ferido enquanto apodrecia, também causa dano extra.
+                        self.vida_atual_heroi -= 10
 
             elif self.heroi.prioridade > self.monstro.prioridade:
                 # O número maior de prioridade faz o herói agir antes do monstro.

@@ -142,7 +142,6 @@ class Nurgle(Inimigos):
 
         if escolha == "1":
             # Liga ou desliga o escudo corrosivo; ao ligá-lo, não causa dano.
-            self.prioridade = -5
             if (self.modo_escudo_corrosivo):
                 self.modo_escudo_corrosivo = False
             elif (not self.modo_escudo_corrosivo):
