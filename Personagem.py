@@ -31,7 +31,7 @@ class Personagem:
         else:
             print("Entrada invalida.")
 
-    def distruicao(self):
+    def distribuicao(self):
         # O jogador reparte seus pontos para melhorar a ficha.
         while(True):
             try:

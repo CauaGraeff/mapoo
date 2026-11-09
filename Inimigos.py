@@ -33,7 +33,7 @@ class Inimigos:
 class Goblin(Inimigos):
 
     def __init__(self):
-        super().__init__("Goblin", 1, 3, 10, 30)
+        super().__init__("Goblin", 1, 5, 10, 30)
 
     def escolher_acao(self):
         return "1"

@@ -89,6 +89,7 @@ class BatalhaManager:
     def cura_heroi(self, cura_h):
         # Soma a cura à vida atual do herói e conta ao jogador.
         self.vida_atual_heroi += cura_h
+        self.vida_atual_heroi = min(self.vida_atual_heroi, self.heroi.stats.getVida())
         print(f"{self.heroi.nome} recuperou {cura_h} de vida.")
 
     def ataque_inimigo(self, dano_i, defesa_h, debuff_ataque_h, debuff_defesa_i):
@@ -124,6 +125,7 @@ class BatalhaManager:
     def cura_inimigo(self, cura_i):
         # Soma a cura à vida do monstro.
         self.vida_atual_monstro += cura_i
+        self.vida_atual_monstro = min(self.vida_atual_monstro, self.heroi.stats.getVida())
         print(f"{self.monstro.nome} recuperou {cura_i} de vida.")
 
 
