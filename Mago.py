@@ -45,16 +45,16 @@ class Mago(Personagem):
             elif (not self.modo_carregamento):
                 # Neste turno o Mago carrega o golpe, sem atacar.
                 self.modo_carregamento = True
-                return 0, 0, 0, 0
+                return 0, 0, 0, 0, 0
     def usar_habilidade_ativa(self, inimigo):
         # O Mago pode escolher um dos três poderes quando a recarga termina.
         while (True):
             if(self.carregamento_habilidade == 0):
-                escolha = input("Desejar usar uma de suas habilidades? "
-                                "1 - sim"
-                                "2 - não")
+                escolha = input("Desejar usar uma de suas habilidades? \n"
+                                "1 - sim \n"
+                                "2 - não \n")
                 if(escolha == "1"):
-                    habilidade = input("Qual habidade? \n"
+                    habilidade = input("Qual habilidade? \n"
                                     "1 - Raio paralisante \n"
                                     "2 - Double luck \n"
                                     "3 - Escudo imperfeito \n")

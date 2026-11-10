@@ -165,9 +165,11 @@ class BatalhaManager:
                     if cura_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
                         self.cura_inimigo(cura_i)
                     if isinstance(self.monstro, Nurgle):
-                        if self.monstro.vida_perdida > 0 and self.monstro.apodrecimento:
+                        if self.monstro.vida_perdida > 0 and self.monstro.modo_escudo_corrosivo:
                             # O poder de Nurgle também tira vida do herói quando ele é atingido.
                             self.vida_atual_heroi -= 10
+                        if self.monstro.duracao_escudo_corrosivo == 0:
+                            self.monstro.modo_escudo_corrosivo = False
                 else:
                     # Neste empate, o monstro age primeiro.
                     if dano_i > 0 and not self.monstro.paralisado:
@@ -186,9 +188,11 @@ class BatalhaManager:
                             print(f"{self.heroi.nome} recuperou {self.heroi.vida_perdida / 2} de vida.")
                             self.heroi.recuperacao_vida = False
                     if isinstance(self.monstro, Nurgle):
-                        if self.monstro.vida_perdida > 0 and self.monstro.apodrecimento:
-                            # Se Nurgle foi ferido enquanto apodrecia, também causa dano extra.
+                        if self.monstro.vida_perdida > 0 and self.monstro.modo_escudo_corrosivo:
+                            # O poder de Nurgle também tira vida do herói quando ele é atingido.
                             self.vida_atual_heroi -= 10
+                        if self.monstro.duracao_escudo_corrosivo == 0:
+                            self.monstro.modo_escudo_corrosivo = False
 
             elif self.heroi.prioridade < self.monstro.prioridade:
                 # O número menor de prioridade faz o herói agir depois do monstro.
@@ -208,9 +212,11 @@ class BatalhaManager:
                         print(f"{self.heroi.nome} recuperou {self.heroi.vida_perdida / 2} de vida.")
                         self.heroi.recuperacao_vida = False
                 if isinstance(self.monstro, Nurgle):
-                    if self.monstro.vida_perdida > 0 and self.monstro.apodrecimento:
-                        # Se Nurgle foi ferido enquanto apodrecia, também causa dano extra.
+                    if self.monstro.vida_perdida > 0 and self.monstro.modo_escudo_corrosivo:
+                        # O poder de Nurgle também tira vida do herói quando ele é atingido.
                         self.vida_atual_heroi -= 10
+                    if self.monstro.duracao_escudo_corrosivo == 0:
+                        self.monstro.modo_escudo_corrosivo = False
 
             elif self.heroi.prioridade > self.monstro.prioridade:
                 # O número maior de prioridade faz o herói agir antes do monstro.
@@ -223,14 +229,22 @@ class BatalhaManager:
                 if cura_i > 0 and not self.monstro.paralisado and self.vida_atual_monstro > 0:
                     self.cura_inimigo(cura_i)
                 if isinstance(self.monstro, Nurgle):
-                    if self.monstro.vida_perdida > 0 and self.monstro.apodrecimento:
-                        # Se Nurgle foi ferido enquanto apodrecia, também causa dano extra.
+                    if self.monstro.vida_perdida > 0 and self.monstro.modo_escudo_corrosivo:
+                        # O poder de Nurgle também tira vida do herói quando ele é atingido.
                         self.vida_atual_heroi -= 10
+                    if self.monstro.duracao_escudo_corrosivo == 0:
+                        self.monstro.modo_escudo_corrosivo = False
 
             # Depois das ações, confere se a batalha já terminou.
             vencedor = self.__verificar_vencedor()
             if vencedor:
                 print(f"\nBatalha Encerrada! Vencedor: {vencedor.nome}")
+                if isinstance(self.heroi, Paladino):
+                    self.heroi.vida_emergencial = False
+                    self.heroi.recuperacao_vida = False
+
+                self.heroi.carregamento_habilidade = 0
+                self.heroi.sortudo = False
                 return vencedor
 
             # Mostra a vida dos dois e prepara as variáveis para o próximo turno.

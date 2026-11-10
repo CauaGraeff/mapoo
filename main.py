@@ -1,6 +1,9 @@
 """Mostra as informações dos heróis e deixa escolher um para jogar."""
 
 import random
+import sys
+from BatalhaManager import BatalhaManager
+from Inimigos import Goblin, Orc, Tyranid, Nurgle
 from Paladino import Paladino
 from Cavaleiro import Cavaleiro
 from Mago import Mago
@@ -64,8 +67,8 @@ def escolher_personagem():
     print("3. Mago")
 #laço de repetição para seleção
     while True:
-        opcao = input("\nEscolha o seu personagem")
-        nome = input("Digite o nome do seu personagem")
+        opcao = input("\nEscolha o seu personagem: \n")
+        nome = input("Digite o nome do seu personagem: \n")
 
         if opcao == "1":
             return Cavaleiro(nome)
@@ -78,13 +81,60 @@ def escolher_personagem():
         else:
             print("Opção incorreta! Escolha 1,2 ou 3.")
 
+def torre(personagem):
+    goblin = Goblin()
+    orc = Orc()
+    tyranid = Tyranid()
+    nurgle = Nurgle()
+    lista = [goblin, orc, tyranid, nurgle]
+
+    print("Entrando na torre de combate!")
+
+    for i in lista:
+        print(f"O inimigo a ser encarado é: {i.nome}")
+        print(i.descricao)
+        print("\nStatus do inimigo:")
+        print(f"Ataque: {i.stats.getAtaque()}")
+        print(f"Defesa: {i.stats.getDefesa()}")
+        print(f"Vida: {i.stats.getVida()}")
+
+        combate = BatalhaManager(personagem, i)
+        vencedor = combate.executar_turno()
+        if vencedor is i:
+            print(f"Game Over")
+            break
+        personagem.experiencia_ganha(i.dificuldade)
+
+        print("\nStatus das Habilidades")
+        print(f"Ataque: {personagem.stats.getAtaque()}")
+        print(f"Defesa: {personagem.stats.getDefesa()}")
+        print(f"Vida: {personagem.stats.getVida()}")
+
+        personagem.distribuicao()
+
+
+
 def main():
     # Começa escolhendo um herói e distribuindo os pontos de experiência.
-    jogador = escolher_personagem()
-    print(f"\n{jogador.nome} seu personagem foi selecionado!")
+    while True:
+        jogador = escolher_personagem()
+        print(f"\n{jogador.nome}, você escolheu seu personagem!")
+        torre(jogador)
 
-    jogador.experiencia_ganha(3)
-    jogador.distruicao()
+        print("Deseja jogar novamente? ")
+        print("1 - Sim")
+        print("2 - Não")
+        continuar = True
+        while continuar:
+            escolha = input()
+            if escolha == "2":
+                print("Obrigado por jogar!")
+                sys.exit()
+            elif escolha == "1":
+                print("Vamos jogar novamente!")
+                continuar = False
+            else:
+                print("Comando inválido, escolha entre 1 e 2.")
 
     print("\nStatus das Habilidades")
     print(f"Ataque: {jogador.stats.getAtaque()}")

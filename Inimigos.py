@@ -33,7 +33,8 @@ class Inimigos:
 class Goblin(Inimigos):
 
     def __init__(self):
-        super().__init__("Goblin", 1, 5, 10, 30)
+        super().__init__("Goblin", 1, 3, 2, 8)
+        self.descricao = "O Goblin combina um golpe desajeitado com uma defesa fraca para derrotar quem invade a torre"
 
     def escolher_acao(self):
         return "1"
@@ -46,6 +47,7 @@ class Goblin(Inimigos):
         recuperacao_vida = 0
         diminuicao_ataque_inimigo = 0
         diminuicao_defesa_inimigo = 0
+        print("Orc está utilizando a ação golpe desajeitado!")
 
         return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
@@ -55,6 +57,7 @@ class Orc(Inimigos):
 
     def __init__(self):
         super().__init__("Orc", 2, 6, 6, 15)
+        self.descricao = "O Orc é uma criatura com muita vida, que se você não se cuidar para o inicio voltará"
 
     def escolher_acao(self):
         # O Orc escolhe ao acaso entre atacar e se curar.
@@ -69,10 +72,12 @@ class Orc(Inimigos):
         if escolha == "1":
             # Ataque do Orc: causa dano ao herói.
             dano = 6
+            print("Orc está utilizando a ação machadada devastadora!")
 
         elif escolha == "2":
             # Cura do Orc: recupera vida em vez de atacar.
             recuperacao_vida = 6
+            print("Orc está utilizando a ação WAAG!")
 
         return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
@@ -82,7 +87,7 @@ class Tyranid(Inimigos):
 
     def __init__(self):
         super().__init__("Tyranid", 3, 14, 8, 23)
-
+        self.descricao = "Tyranid possui alto ataque combinado com maior status de vida, utiliza ligação psíquica para ganhar vantagem no turno"
         self.duracao_instinto_colmeia = 0
         self.instinto_colmeia = False
 
@@ -104,12 +109,15 @@ class Tyranid(Inimigos):
 
         if escolha == "1":
             # O ataque do Tyranid causa bastante dano.
-            dano = 17
+            dano = 8
+            print("Tyranid está utilizando a ação garra corrosiva!")
 
         elif escolha == "2":
             # O instinto dura dois turnos e melhora as rolagens de ataque.
             self.instinto_colmeia = True
             self.duracao_instinto_colmeia = 2
+            print("Tyranid está utilizando a ação instinto colmeia!"
+                  "Agora ele gira dois dados e pega o melhor resultado!")
 
         return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
@@ -119,9 +127,10 @@ class Nurgle(Inimigos):
 
     def __init__(self):
         super().__init__("Nurgle", 3, 18, 13, 30)
-
+        self.descricao = "Enfim chegamos ao chefão, com a maior vida entre os inimigos, para vencê-lo é necessário encarar o seu escudo corrosivo combinado com seu ataque que desnorteia o jogador."
         self.modo_escudo_corrosivo = False
         self.apodrecimento = False
+        self.duracao_escudo_corrosivo = 0
     def escolher_acao(self):
         # Com o escudo desligado, Nurgle escolhe entre se proteger ou atacar.
         if not self.modo_escudo_corrosivo:
@@ -141,17 +150,20 @@ class Nurgle(Inimigos):
         if escolha == "1":
             # Liga ou desliga o escudo corrosivo; ao ligá-lo, não causa dano.
             if (self.modo_escudo_corrosivo):
-                self.modo_escudo_corrosivo = False
+                self.duracao_escudo_corrosivo = 0
                 self.prioridade = 0
             elif (not self.modo_escudo_corrosivo):
                 self.modo_escudo_corrosivo = True
                 self.prioridade = 5
+                self.duracao_escudo_corrosivo = 1
+                print("Nurgle está utilizando a ação escudo corrosivo!")
                 return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
 
         elif escolha == "2":
             # O ataque forte de Nurgle causa dano ao herói.
-            dano = 18
+            print("Nurgle está utilizando a ação praga corrosiva!")
+            dano = 10
 
         return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
@@ -161,6 +173,7 @@ class Nurgle(Inimigos):
             # Ativa o apodrecimento e começa a recarga de quatro turnos.
             self.apodrecimento = True
             self.carregamento_habilidade = 4
+            print("Tyranid está utilizando a habilidade apodrecimento!")
         else:
             # A contagem diminui até a habilidade poder ser usada outra vez.
             self.carregamento_habilidade -= 1
