@@ -23,7 +23,7 @@ except pygame.error:
 #LOGO MAPOO
 try:
     #MANTÉM A TRANSPARÊNCIA
-    imagem_logo = pygame.image.load("C:/Users/cauag/OneDrive/Documentos/mapoo/Imagens/MAPOO.png").convert_alpha()
+    imagem_logo = pygame.image.load("C:/Users/jjoao/PycharmProjects/mapoo/Imagens/MAPOO.png").convert_alpha()
 
     #AJUSTE DE TAMANHO
     imagem_logo = pygame.transform.scale(imagem_logo, (600, 350))

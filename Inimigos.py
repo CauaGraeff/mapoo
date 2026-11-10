@@ -47,7 +47,7 @@ class Goblin(Inimigos):
         recuperacao_vida = 0
         diminuicao_ataque_inimigo = 0
         diminuicao_defesa_inimigo = 0
-        print("Orc está utilizando a ação golpe desajeitado!")
+        print("Goblin está utilizando a ação golpe desajeitado!")
 
         return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
 
@@ -152,6 +152,7 @@ class Nurgle(Inimigos):
             if (self.modo_escudo_corrosivo):
                 self.duracao_escudo_corrosivo = 0
                 self.prioridade = 0
+                print("Nurgle está utilizando a ação escudo corrosivo!")
             elif (not self.modo_escudo_corrosivo):
                 self.modo_escudo_corrosivo = True
                 self.prioridade = 5
@@ -173,7 +174,7 @@ class Nurgle(Inimigos):
             # Ativa o apodrecimento e começa a recarga de quatro turnos.
             self.apodrecimento = True
             self.carregamento_habilidade = 4
-            print("Tyranid está utilizando a habilidade apodrecimento!")
+            print("Nurgle está utilizando a habilidade apodrecimento!")
         else:
             # A contagem diminui até a habilidade poder ser usada outra vez.
             self.carregamento_habilidade -= 1
