@@ -167,7 +167,7 @@ class BatalhaManager:
                     if isinstance(self.monstro, Nurgle):
                         if self.monstro.vida_perdida > 0 and self.monstro.modo_escudo_corrosivo:
                             # O poder de Nurgle também tira vida do herói quando ele é atingido.
-                            self.vida_atual_heroi -= 10
+                            self.vida_atual_heroi -= 3
                         if self.monstro.duracao_escudo_corrosivo == 0:
                             self.monstro.modo_escudo_corrosivo = False
                 else:
@@ -176,12 +176,12 @@ class BatalhaManager:
                         self.ataque_inimigo(dano_i, defesa_h, debuff_ataque_h, debuff_defesa_i)
                     if cura_i > 0 and not self.monstro.paralisado:
                         self.cura_inimigo(cura_i)
-                    if dano_h > 0:
+                    if dano_h > 0 and self.vida_atual_heroi > 0:
                         self.ataque_heroi(dano_h, defesa_i, debuff_ataque_i, debuff_defesa_h)
-                    if cura_h > 0:
+                    if cura_h > 0 and self.vida_atual_heroi > 0:
                         self.cura_heroi(cura_h)
                     if isinstance(self.heroi, Paladino):
-                        if self.heroi.recuperacao_vida:
+                        if self.heroi.recuperacao_vida and self.vida_atual_heroi > 0:
                             # Depois de receber o golpe, o Paladino recupera metade do dano.
                             self.vida_atual_heroi += math.ceil(self.heroi.vida_perdida / 2)
                             self.vida_atual_heroi = min(self.vida_atual_heroi, self.heroi.stats.getVida())
@@ -190,7 +190,7 @@ class BatalhaManager:
                     if isinstance(self.monstro, Nurgle):
                         if self.monstro.vida_perdida > 0 and self.monstro.modo_escudo_corrosivo:
                             # O poder de Nurgle também tira vida do herói quando ele é atingido.
-                            self.vida_atual_heroi -= 10
+                            self.vida_atual_heroi -= 3
                         if self.monstro.duracao_escudo_corrosivo == 0:
                             self.monstro.modo_escudo_corrosivo = False
 
@@ -200,12 +200,12 @@ class BatalhaManager:
                     self.ataque_inimigo(dano_i, defesa_h, debuff_ataque_h, debuff_defesa_i)
                 if cura_i > 0 and not self.monstro.paralisado:
                     self.cura_inimigo(cura_i)
-                if dano_h > 0:
+                if dano_h > 0 and self.vida_atual_heroi > 0:
                     self.ataque_heroi(dano_h, defesa_i, debuff_ataque_i, debuff_defesa_h)
-                if cura_h > 0:
+                if cura_h > 0 and self.vida_atual_heroi > 0:
                     self.cura_heroi(cura_h)
                 if isinstance(self.heroi, Paladino):
-                    if self.heroi.recuperacao_vida:
+                    if self.heroi.recuperacao_vida and self.vida_atual_heroi > 0:
                         # A cura do Paladino acontece depois que o inimigo o atinge.
                         self.vida_atual_heroi += math.ceil(self.heroi.vida_perdida / 2)
                         self.vida_atual_heroi = min(self.vida_atual_heroi, self.heroi.stats.getVida())
@@ -214,7 +214,7 @@ class BatalhaManager:
                 if isinstance(self.monstro, Nurgle):
                     if self.monstro.vida_perdida > 0 and self.monstro.modo_escudo_corrosivo:
                         # O poder de Nurgle também tira vida do herói quando ele é atingido.
-                        self.vida_atual_heroi -= 10
+                        self.vida_atual_heroi -= 3
                     if self.monstro.duracao_escudo_corrosivo == 0:
                         self.monstro.modo_escudo_corrosivo = False
 
@@ -231,7 +231,7 @@ class BatalhaManager:
                 if isinstance(self.monstro, Nurgle):
                     if self.monstro.vida_perdida > 0 and self.monstro.modo_escudo_corrosivo:
                         # O poder de Nurgle também tira vida do herói quando ele é atingido.
-                        self.vida_atual_heroi -= 10
+                        self.vida_atual_heroi -= 3
                     if self.monstro.duracao_escudo_corrosivo == 0:
                         self.monstro.modo_escudo_corrosivo = False
 
