@@ -31,6 +31,15 @@ def rolar_d20_e_calcular_dano(dano_base: float, personagem) -> tuple[int, str]:
                 if temporario > d20 or i == 0:
                     d20 = temporario
             personagem.duracao_instinto_colmeia -= 1
+        elif personagem.sortudo:
+            # A sorte também deixa o personagem escolher o maior de dois dados.
+            for i in range(2):
+                temporario = random.randint(1, 20)
+                if temporario > d20 or i == 0:
+                    d20 = temporario
+            personagem.sortudo = False
+        else:
+            d20 = random.randint(1, 20)
     elif personagem.sortudo:
         # A sorte também deixa o personagem escolher o maior de dois dados.
         for i in range(2):
