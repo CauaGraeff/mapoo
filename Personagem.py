@@ -23,11 +23,11 @@ class Personagem:
     def experiencia_ganha(self, dificuldade: int):
         # Inimigos mais difíceis dão mais pontos de experiência.
         if(dificuldade == 1):
-            self.experiencia += 2
-        elif (dificuldade == 2):
-            self.experiencia += 4
-        elif (dificuldade == 3):
             self.experiencia += 5
+        elif (dificuldade == 2):
+            self.experiencia += 6
+        elif (dificuldade == 3):
+            self.experiencia += 10
         else:
             print("Entrada invalida.")
 
