@@ -24,7 +24,7 @@ class Cavaleiro(Personagem):
     def acoes(self, escolha: str, inimigo):
         if (escolha == "1"):
             # Corte Rápido causa dano e não aumenta a defesa.
-            dano = 5
+            dano = 6
             defesa = 0
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 0

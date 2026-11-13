@@ -7,6 +7,8 @@ from Inimigos import Goblin, Orc, Tyranid, Nurgle
 from Paladino import Paladino
 from Cavaleiro import Cavaleiro
 from Mago import Mago
+import pyttsx3
+
 
 #função de visualização das habilidades de cada personagem
 def exibir_menu_detalhado():
@@ -91,8 +93,13 @@ def torre(personagem):
     print("Entrando na torre de combate!")
 
     for i in lista:
+        motor = pyttsx3.init()
         print(f"O inimigo a ser encarado é: {i.nome}")
         print(i.descricao)
+        motor.say(i.descricao)
+        motor.runAndWait()
+        motor.stop()
+        del motor
         print("\nStatus do inimigo:")
         print(f"Ataque: {i.stats.getAtaque()}")
         print(f"Defesa: {i.stats.getDefesa()}")
@@ -103,6 +110,11 @@ def torre(personagem):
         if vencedor is i:
             print(f"Game Over")
             break
+        elif isinstance(i, Nurgle):
+            if (vencedor is personagem):
+                print(f"Vitória")
+                print("Conquista alcançada: Derrotar o chefão nurgle da torre corrosiva")
+                break
         personagem.experiencia_ganha(i.dificuldade)
 
         print("\nStatus das Habilidades")

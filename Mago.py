@@ -25,7 +25,7 @@ class Mago(Personagem):
     def acoes(self, escolha: str, inimigo):
         if (escolha == "1"):
             # Bola de Fogo é o ataque simples do Mago.
-            dano = 5
+            dano = 6
             defesa = 0
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 0
@@ -33,7 +33,7 @@ class Mago(Personagem):
             return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
         elif (escolha == "2"):
             # A Super Bola causa mais dano, mas primeiro precisa de um turno para carregar.
-            dano = 13
+            dano = 14
             defesa = 0
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 0

@@ -35,7 +35,7 @@ class Paladino(Personagem):
             return dano, defesa, recuperacao_vida, diminuicao_ataque_inimigo, diminuicao_defesa_inimigo
         elif(escolha == "2"):
             # Corte Prejudicial ataca e reduz o ataque do inimigo neste turno.
-            dano = 5
+            dano = 7
             defesa = 0
             recuperacao_vida = 0
             diminuicao_ataque_inimigo = 5

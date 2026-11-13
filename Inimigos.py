@@ -42,7 +42,7 @@ class Goblin(Inimigos):
     def acoes(self, escolha: str, personagem):
         # O Goblin sempre tenta causar um pouco de dano.
         # Os outros valores ficam zerados porque ele não cura nem se defende.
-        dano = 3
+        dano = 5
         defesa = 0
         recuperacao_vida = 0
         diminuicao_ataque_inimigo = 0
@@ -86,7 +86,7 @@ class Orc(Inimigos):
 class Tyranid(Inimigos):
 
     def __init__(self):
-        super().__init__("Tyranid", 3, 14, 8, 23)
+        super().__init__("Tyranid", 3, 10, 8, 23)
         self.descricao = "Tyranid possui alto ataque combinado com maior status de vida, utiliza ligação psíquica para ganhar vantagem no turno"
         self.duracao_instinto_colmeia = 0
         self.instinto_colmeia = False
@@ -126,7 +126,7 @@ class Tyranid(Inimigos):
 class Nurgle(Inimigos):
 
     def __init__(self):
-        super().__init__("Nurgle", 3, 18, 13, 30)
+        super().__init__("Nurgle", 3, 14, 13, 30)
         self.descricao = "Enfim chegamos ao chefão, com a maior vida entre os inimigos, para vencê-lo é necessário encarar o seu escudo corrosivo combinado com seu ataque que desnorteia o jogador."
         self.modo_escudo_corrosivo = False
         self.apodrecimento = False
