@@ -7,6 +7,7 @@ from Inimigos import Goblin, Orc, Tyranid, Nurgle
 from Paladino import Paladino
 from Cavaleiro import Cavaleiro
 from Mago import Mago
+from pygame2d import iniciar_interface2d
 import pyttsx3
 
 
@@ -60,28 +61,17 @@ def exibir_menu_detalhado():
 
 #função para escolha do personagem
 def escolher_personagem():
-    # Repete a pergunta até receber uma opção que exista.
+    nome, classe_escolhida = iniciar_interface2d()
+
+    # Exibe os detalhes da classe no terminal antes de entrar na torre
     exibir_menu_detalhado()
 
-    print("\nSELEÇÃO DE PERSONAGEM")
-    print("1. Cavaleiro")
-    print("2. Paladino")
-    print("3. Mago")
-#laço de repetição para seleção
-    while True:
-        opcao = input("\nEscolha o seu personagem: \n")
-        nome = input("Digite o nome do seu personagem: \n")
-
-        if opcao == "1":
-            return Cavaleiro(nome)
-
-        elif opcao == "2":
-            return Paladino(nome)
-
-        elif opcao == "3":
-            return Mago(nome)
-        else:
-            print("Opção incorreta! Escolha 1,2 ou 3.")
+    if classe_escolhida == "CAVALEIRO":
+        return Cavaleiro(nome)
+    elif classe_escolhida == "PALADINO":
+        return Paladino(nome)
+    elif classe_escolhida == "MAGO":
+        return Mago(nome)
 
 def torre(personagem):
     goblin = Goblin()
