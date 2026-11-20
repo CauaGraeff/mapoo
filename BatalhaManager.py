@@ -134,7 +134,7 @@ class BatalhaManager:
     def cura_inimigo(self, cura_i):
         # Soma a cura à vida do monstro.
         self.vida_atual_monstro += cura_i
-        self.vida_atual_monstro = min(self.vida_atual_monstro, self.heroi.stats.getVida())
+        self.vida_atual_monstro = min(self.vida_atual_monstro, self.monstro.stats.getVida())
         print(f"{self.monstro.nome} recuperou {cura_i} de vida.")
 
 
